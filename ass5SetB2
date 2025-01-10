@@ -1,0 +1,97 @@
+/*Ass-5B2*/
+
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.imageio.*;
+import javax.swing.*;
+import javax.swing.event.*;
+/*<applet code="Ball.class" width="300" height="300"></applet>*/
+class Thr extends Thread
+{
+	boolean up=false;
+	Ball parent;int top,left;
+	Color c;
+	Thr(int t,int l,Color cr,Ball p)
+	{
+		top=l;
+		if(top>170)
+			top=170-(t/8);
+		left=t;
+		c=cr;
+		parent=p;
+	}
+	public void run()
+	{
+		try
+		{
+			while(true)
+			{
+				Thread.sleep(37);
+				if(top>=100)
+					up=true;
+				if(top<=0)
+					up=false;
+				if(!up)
+					top=top+2;
+				else
+					top=top-2;
+				parent.p.repaint();
+			}
+		}catch(Exception e){}
+	}
+}
+public class Ball extends JFrame implements ActionListener
+{
+	int top=0,left=0,n=0,radius=50;
+	Color C[]={Color.black,Color.cyan,Color.red,Color.orange,Color.yellow,Color.pink,Color.gray,Color.blue,Color.green,Color.magenta};
+	Thr t[]=new Thr[10];
+	GPanel p;JButton b;Panel p1;
+	
+	Ball()
+	{
+		setSize(700,300);
+		setLayout(new BorderLayout());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(p=new GPanel(this),BorderLayout.CENTER);
+		b=new JButton("start");
+		b.addActionListener(this);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(p1=new Panel(),BorderLayout.SOUTH);
+		p1.setBackground(Color.lightGray);
+		p1.add(b);
+		setVisible(true);
+	}
+	public static void main(String[] args)
+	{
+		new Ball();
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		t[n]=new Thr(left+(radius+13)*n+89,top+n*25,C[n],this);
+		t[n].start();
+		n++;	
+		p.repaint();
+		if(n>9)
+			b.setEnabled(false);
+	}
+}
+class GPanel extends JPanel
+{
+	Ball parent;
+	GPanel(Ball p)
+	{
+		parent=p;
+	}
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		setBackground(Color.white);
+		for(int i=0;i<parent.n;i++)
+		{
+			g.setColor(parent.t[i].c);
+			g.fillOval(parent.t[i].left,parent.t[i].top,parent.radius,parent.radius);
+		}
+	}
+}
