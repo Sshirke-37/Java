@@ -1,0 +1,30 @@
+import java.io.*;
+class PrintText_Thread extends Thread
+{
+	String str;
+	int n;
+	PrintText_Thread(String str,int n)
+	{
+		this.str=str;
+		this.n=n;
+	}
+	public void run()
+	{
+		for(int i=1;i<=n;i++)
+		{
+			System.out.println(str + "-" +i);
+		}
+	}
+}
+public class seta3
+{
+	public static void main(String arg[])
+	{
+		PrintText_Thread t1=new PrintText_Thread("I am in FY",10);
+		PrintText_Thread t2=new PrintText_Thread("I am in SY",10);
+		PrintText_Thread t3=new PrintText_Thread("I am in TY",30);
+		t1.start();
+		t2.start();
+		t3.start();
+	}
+}
