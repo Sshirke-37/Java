@@ -1,0 +1,36 @@
+import java.io.*;
+class RunnableThread extends Thread{
+String msg;
+public RunnableThread()
+{
+}
+public RunnableThread(String message)
+{
+this.msg=message;
+}
+public void run()
+{
+try
+{
+while(true)
+
+System.out.println(this.msg);
+}
+
+catch(Exception ie){
+
+}
+}
+}
+public class ass5setA1
+{
+public static void main(String args[])
+{
+RunnableThread thread1=new RunnableThread("Hi..");
+RunnableThread thread2=new RunnableThread("How are you.?");
+System.out.println(thread1);
+System.out.println(thread2);
+thread1.start();
+thread2.start();
+}
+}
